@@ -1,0 +1,223 @@
+:root {
+    --bg-color: #0f111a;
+    --card-bg: #1a1e29;
+    --accent-color: #6366f1;
+    --text-color: #f3f4f6;
+    --border-color: #2e3548;
+    --muted-color: #9ca3af;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    display: grid;
+    place-items: center;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: system-ui, sans-serif;
+}
+
+.container {
+    width: min(100%, 760px);
+    padding: 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
+}
+
+.app-header h1,
+.section h2 {
+    margin-top: 0;
+}
+
+.muted {
+    color: var(--muted-color);
+    font-size: 0.9rem;
+}
+
+.tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin: 20px 0;
+}
+
+.tab-button,
+button,
+input,
+select,
+.option-button {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    background: #11141d;
+    font: inherit;
+}
+
+button,
+.tab-button {
+    border: 0;
+    background: var(--accent-color);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.tab-button {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    font-size: 0.85rem;
+}
+
+.tab-button.is-active {
+    background: var(--accent-color);
+}
+
+button:hover,
+.tab-button:hover,
+.option-button:hover {
+    opacity: 0.9;
+}
+
+button.secondary {
+    background: #2e3548;
+}
+
+button.compact {
+    width: auto;
+    min-height: 34px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+}
+
+/* Custom Option Button Groups (Replacing Dropdowns) */
+.button-selector-group {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.option-button {
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.option-button.is-selected {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    font-weight: 600;
+}
+
+.section {
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.section:last-child {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+label {
+    display: block;
+    margin: 12px 0 6px;
+    color: var(--muted-color);
+    font-size: 0.9rem;
+}
+
+input,
+select {
+    margin-bottom: 12px;
+}
+
+input[type="color"] {
+    height: 44px;
+    padding: 4px;
+}
+
+.button-row {
+    display: flex;
+    gap: 10px;
+}
+
+.status {
+    min-height: 1.3em;
+    color: var(--success-color);
+    font-size: 0.85rem;
+}
+
+.status.error {
+    color: var(--danger-color);
+}
+
+.health-list,
+.request-list {
+    display: grid;
+    gap: 8px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.health-list li,
+.request-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+    font-size: 0.85rem;
+}
+
+.online {
+    color: var(--success-color);
+}
+
+.offline,
+.unverified {
+    color: var(--danger-color);
+}
+
+.route-frame {
+    width: 100%;
+    height: 440px;
+    margin-top: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: white;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+@media (max-width: 640px) {
+    .tabs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .button-row {
+        flex-direction: column;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
