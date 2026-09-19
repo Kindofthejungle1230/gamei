@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portal Dashboard</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./main.js" defer></script>
+</head>
+<body>
+<main class="container">
+    <header class="app-header">
+        <div>
+            <h1>Portal Dashboard</h1>
+            <p class="muted">Authorized endpoint and content management portal.</p>
+        </div>
+    </header>
+
+    <nav class="tabs" aria-label="Dashboard views">
+        <button class="tab-button is-active" type="button" data-view="home">
+            Dashboard Home
+        </button>
+        <button class="tab-button" type="button" data-view="sandbox">
+            Proxy Sandbox
+        </button>
+        <button class="tab-button" type="button" data-view="settings">
+            Settings
+        </button>
+        <button class="tab-button" type="button" data-view="queue">
+            Request Queue
+        </button>
+    </nav>
+
+    <section class="view is-active" data-view-panel="home">
+        <div class="section">
+            <h2>Mirror Router</h2>
+
+            <label>Active endpoint mirror</label>
+            <div id="mirrorButtonContainer" class="button-selector-group">
+                <button type="button" class="option-button is-selected" 
+                    data-value="https://mirror-alpha.example.com" 
+                    data-label="Mirror Alpha (US-East)" 
+                    data-health-path="/health">
+                    Mirror Alpha (US-East)
+                </button>
+                <button type="button" class="option-button" 
+                    data-value="https://mirror-beta.example.com" 
+                    data-label="Mirror Beta (US-West)" 
+                    data-health-path="/health">
+                    Mirror Beta (US-West)
+                </button>
+                <button type="button" class="option-button" 
+                    data-value="https://mirror-gamma.example.com" 
+                    data-label="Mirror Gamma (EU-Central)" 
+                    data-health-path="/health">
+                    Mirror Gamma (EU-Central)
+                </button>
+            </div>
+
+            <div class="button-row">
+                <button id="connectMirrorButton" type="button">
+                    Connect to Mirror
+                </button>
+                <button id="refreshHealthButton" class="secondary" type="button">
+                    Refresh Health
+                </button>
+            </div>
+
+            <p id="mirrorStatus" class="status" role="status" aria-live="polite"></p>
+            <ul id="healthList" class="health-list"></ul>
+        </div>
+
+        <div class="section">
+            <h2>Quick Request</h2>
+
+            <form id="requestForm">
+                <label for="gameTitle">Title / Application Name</label>
+                <input
+                    id="gameTitle"
+                    name="gameTitle"
+                    type="text"
+                    maxlength="120"
+                    autocomplete="off"
+                    required>
+
+                <button type="submit">Queue Request</button>
+            </form>
+
+            <p id="requestStatus" class="status" role="status" aria-live="polite"></p>
+        </div>
+    </section>
+
+    <section class="view" data-view-panel="sandbox" hidden>
+        <div class="section">
+            <h2>Authorized Search / Route</h2>
+
+            <form id="routeForm">
+                <label for="routeInput">HTTPS URL or search query</label>
+                <input
+                    id="routeInput"
+                    name="routeInput"
+                    type="text"
+                    maxlength="1000"
+                    autocomplete="off"
+                    placeholder="https://approved.example or search terms"
+                    required>
+
+                <label>Authorized gateway</label>
+                <div id="gatewayButtonContainer" class="button-selector-group">
+                    <button type="button" class="option-button is-selected" data-gateway="default">Default gateway</button>
+                    <button type="button" class="option-button" data-gateway="regional">Regional gateway</button>
+                </div>
+
+                <button type="submit">Open in Sandbox</button>
+            </form>
+
+            <p id="routeStatus" class="status" role="status" aria-live="polite"></p>
+
+            <iframe
+                id="routeFrame"
+                class="route-frame"
+                title="Sandboxed destination"
+                sandbox="allow-scripts allow-same-origin allow-forms"
+                referrerpolicy="no-referrer"
+                hidden>
+            </iframe>
+        </div>
+    </section>
+
+    <section class="view" data-view-panel="settings" hidden>
+        <div class="section">
+            <h2>Theme Settings</h2>
+
+            <label for="bgColorPicker">Background color</label>
+            <input id="bgColorPicker" type="color" value="#0f111a">
+
+            <label for="accentColorPicker">Accent color</label>
+            <input id="accentColorPicker" type="color" value="#6366f1">
+
+            <button id="saveSettingsButton" type="button">
+                Save Preferences
+            </button>
+
+            <p id="settingsStatus" class="status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="section">
+            <h2>Gateway Configuration</h2>
+            <p class="muted">
+                Configure only gateways that you own or are authorized to use.
+            </p>
+
+            <label for="defaultGatewayInput">
+                Default gateway prefix
+            </label>
+            <input
+                id="defaultGatewayInput"
+                type="url"
+                placeholder="https://portal.example/proxy?url=">
+
+            <label for="regionalGatewayInput">
+                Regional gateway prefix
+            </label>
+            <input
+                id="regionalGatewayInput"
+                type="url"
+                placeholder="https://regional.example/proxy?target=">
+
+            <button id="saveGatewayButton" type="button">
+                Save Gateway Configuration
+            </button>
+
+            <p id="gatewayStatus" class="status" role="status" aria-live="polite"></p>
+        </div>
+    </section>
+
+    <section class="view" data-view-panel="queue" hidden>
+        <div class="section">
+            <div class="section-heading">
+                <h2>Request Queue</h2>
+                <button id="clearQueueButton" class="secondary compact" type="button">
+                    Clear Queue
+                </button>
+            </div>
+
+            <p id="queueEmpty" class="muted">No requests have been queued.</p>
+            <ul id="requestQueue" class="request-list"></ul>
+        </div>
+    </section>
+</main>
+</body>
+</html>
