@@ -11,114 +11,58 @@
 <body>
 <main class="container">
     <header class="app-header">
-        <h1>Portal Dashboard</h1>
-        <p class="muted">Authorized endpoint and content management portal.</p>
+        <div>
+            <p class="eyebrow">CONTROL CENTER</p>
+            <h1>Portal Dashboard</h1>
+            <p class="muted">Authorized endpoint and content management portal.</p>
+        </div>
+        <button id="themeToggleButton" class="icon-button" type="button" aria-label="Toggle theme" title="Toggle theme">◐</button>
     </header>
 
-    <nav class="tabs" aria-label="Dashboard views">
-        <button class="tab-button is-active" type="button" data-view="home" aria-selected="true">Dashboard Home</button>
-        <button class="tab-button" type="button" data-view="sandbox" aria-selected="false">Proxy Sandbox</button>
-        <button class="tab-button" type="button" data-view="settings" aria-selected="false">Settings</button>
-        <button class="tab-button" type="button" data-view="queue" aria-selected="false">Request Queue</button>
+    <nav class="tabs" aria-label="Dashboard views" role="tablist">
+        <button class="tab-button is-active" type="button" data-view="home" role="tab" aria-selected="true">Dashboard Home</button>
+        <button class="tab-button" type="button" data-view="sandbox" role="tab" aria-selected="false">Proxy Sandbox</button>
+        <button class="tab-button" type="button" data-view="settings" role="tab" aria-selected="false">Settings</button>
+        <button class="tab-button" type="button" data-view="queue" role="tab" aria-selected="false">Request Queue <span id="queueBadge" class="badge">0</span></button>
     </nav>
 
-    <section class="view is-active" data-view-panel="home">
+    <section class="view is-active" data-view-panel="home" role="tabpanel">
         <div class="section">
-            <h2>Mirror Router</h2>
-            <p class="muted">Choose an endpoint. Health status is checked asynchronously.</p>
-
+            <div class="section-heading"><div><p class="eyebrow">NETWORK</p><h2>Mirror Router</h2></div><span class="live-pill"><i></i> Live</span></div>
+            <p class="muted">Choose an authorized endpoint. Health status is checked asynchronously.</p>
             <div id="mirrorButtonContainer" class="button-selector-group mirror-options" role="radiogroup" aria-label="Active endpoint mirror">
-                <button type="button" class="option-button is-selected" role="radio" aria-checked="true" tabindex="0"
-                    data-value="https://mirror-alpha.example.com" data-label="Mirror Alpha (US-East)" data-health-path="/health">
-                    <span class="option-title">Mirror Alpha</span><span class="option-detail">US-East</span><span class="option-check" aria-hidden="true">✓</span>
-                </button>
-                <button type="button" class="option-button" role="radio" aria-checked="false" tabindex="-1"
-                    data-value="https://mirror-beta.example.com" data-label="Mirror Beta (US-West)" data-health-path="/health">
-                    <span class="option-title">Mirror Beta</span><span class="option-detail">US-West</span><span class="option-check" aria-hidden="true">✓</span>
-                </button>
-                <button type="button" class="option-button" role="radio" aria-checked="false" tabindex="-1"
-                    data-value="https://mirror-gamma.example.com" data-label="Mirror Gamma (EU-Central)" data-health-path="/health">
-                    <span class="option-title">Mirror Gamma</span><span class="option-detail">EU-Central</span><span class="option-check" aria-hidden="true">✓</span>
-                </button>
+                <button type="button" class="option-button is-selected" role="radio" aria-checked="true" tabindex="0" data-value="https://mirror-alpha.example.com" data-label="Mirror Alpha (US-East)" data-health-path="/health"><span class="option-title">Mirror Alpha</span><span class="option-detail">US-East</span><span class="option-check" aria-hidden="true">✓</span></button>
+                <button type="button" class="option-button" role="radio" aria-checked="false" tabindex="-1" data-value="https://mirror-beta.example.com" data-label="Mirror Beta (US-West)" data-health-path="/health"><span class="option-title">Mirror Beta</span><span class="option-detail">US-West</span><span class="option-check" aria-hidden="true">✓</span></button>
+                <button type="button" class="option-button" role="radio" aria-checked="false" tabindex="-1" data-value="https://mirror-gamma.example.com" data-label="Mirror Gamma (EU-Central)" data-health-path="/health"><span class="option-title">Mirror Gamma</span><span class="option-detail">EU-Central</span><span class="option-check" aria-hidden="true">✓</span></button>
             </div>
-
-            <div class="button-row">
-                <button id="connectMirrorButton" type="button">Connect to Mirror</button>
-                <button id="refreshHealthButton" class="secondary" type="button">Refresh Health</button>
-            </div>
-
+            <div class="button-row"><button id="connectMirrorButton" type="button">Connect to Mirror</button><button id="refreshHealthButton" class="secondary" type="button">Refresh Health</button></div>
             <p id="mirrorStatus" class="status" role="status" aria-live="polite"></p>
             <ul id="healthList" class="health-list" aria-label="Mirror health results"></ul>
         </div>
-
         <div class="section">
-            <h2>Quick Request</h2>
-            <form id="requestForm">
-                <label for="gameTitle">Title / Application Name</label>
-                <input id="gameTitle" name="gameTitle" type="text" maxlength="120" autocomplete="off" required>
-                <button type="submit">Queue Request</button>
-            </form>
+            <p class="eyebrow">QUICK ACTION</p><h2>Quick Request</h2>
+            <form id="requestForm"><label for="gameTitle">Title / Application Name</label><input id="gameTitle" name="gameTitle" type="text" maxlength="120" autocomplete="off" required><button type="submit">Queue Request</button></form>
             <p id="requestStatus" class="status" role="status" aria-live="polite"></p>
         </div>
     </section>
 
-    <section class="view" data-view-panel="sandbox" hidden>
-        <div class="section">
-            <h2>Authorized Search / Route</h2>
-            <form id="routeForm">
-                <label for="routeInput">HTTPS URL or search query</label>
-                <input id="routeInput" name="routeInput" type="text" maxlength="1000" autocomplete="off" placeholder="https://approved.example or search terms" required>
-
-                <label id="gatewayLabel">Authorized gateway</label>
-                <div id="gatewayButtonContainer" class="button-selector-group gateway-options" role="radiogroup" aria-labelledby="gatewayLabel">
-                    <button type="button" class="option-button is-selected" role="radio" aria-checked="true" tabindex="0" data-gateway="default">
-                        <span class="option-title">Default gateway</span><span class="option-detail">Primary route</span>
-                    </button>
-                    <button type="button" class="option-button" role="radio" aria-checked="false" tabindex="-1" data-gateway="regional">
-                        <span class="option-title">Regional gateway</span><span class="option-detail">Alternative route</span>
-                    </button>
-                </div>
-
+    <section class="view" data-view-panel="sandbox" role="tabpanel" hidden>
+        <div class="section"><p class="eyebrow">AUTHORIZED ROUTING</p><h2>Proxy Sandbox</h2><p class="muted">Open approved HTTPS destinations in an isolated frame, or route search queries through a configured gateway.</p>
+            <form id="routeForm"><label for="routeInput">HTTPS URL or search query</label><div class="input-row"><input id="routeInput" name="routeInput" type="text" maxlength="1000" autocomplete="off" placeholder="https://approved.example or search terms" required><button id="clearRouteButton" class="secondary icon-button" type="button" aria-label="Clear route input">×</button></div>
+                <label id="gatewayLabel">Authorized gateway</label><div id="gatewayButtonContainer" class="button-selector-group gateway-options" role="radiogroup" aria-labelledby="gatewayLabel"><button type="button" class="option-button is-selected" role="radio" aria-checked="true" tabindex="0" data-gateway="default"><span class="option-title">Default gateway</span><span class="option-detail">Primary route</span></button><button type="button" class="option-button" role="radio" aria-checked="false" tabindex="-1" data-gateway="regional"><span class="option-title">Regional gateway</span><span class="option-detail">Alternative route</span></button></div>
                 <button type="submit">Open in Sandbox</button>
-            </form>
-            <p id="routeStatus" class="status" role="status" aria-live="polite"></p>
-            <iframe id="routeFrame" class="route-frame" title="Sandboxed destination" sandbox="allow-scripts allow-same-origin allow-forms" referrerpolicy="no-referrer" hidden></iframe>
+            </form><p id="routeStatus" class="status" role="status" aria-live="polite"></p><iframe id="routeFrame" class="route-frame" title="Sandboxed destination" sandbox="allow-scripts allow-same-origin allow-forms" referrerpolicy="no-referrer" hidden></iframe>
         </div>
     </section>
 
-    <section class="view" data-view-panel="settings" hidden>
-        <div class="section">
-            <h2>Theme Settings</h2>
-            <label for="bgColorPicker">Background color</label>
-            <input id="bgColorPicker" type="color" value="#0f111a">
-            <label for="accentColorPicker">Accent color</label>
-            <input id="accentColorPicker" type="color" value="#6366f1">
-            <button id="saveSettingsButton" type="button">Save Preferences</button>
-            <p id="settingsStatus" class="status" role="status" aria-live="polite"></p>
-        </div>
-
-        <div class="section">
-            <h2>Gateway Configuration</h2>
-            <p class="muted">Configure only gateways that you own or are authorized to use.</p>
-            <label for="defaultGatewayInput">Default gateway prefix</label>
-            <input id="defaultGatewayInput" type="url" placeholder="https://portal.example/proxy?url=">
-            <label for="regionalGatewayInput">Regional gateway prefix</label>
-            <input id="regionalGatewayInput" type="url" placeholder="https://regional.example/proxy?target=">
-            <button id="saveGatewayButton" type="button">Save Gateway Configuration</button>
-            <p id="gatewayStatus" class="status" role="status" aria-live="polite"></p>
-        </div>
+    <section class="view" data-view-panel="settings" role="tabpanel" hidden>
+        <div class="section"><p class="eyebrow">PERSONALIZATION</p><h2>Theme Settings</h2><label for="bgColorPicker">Background color</label><input id="bgColorPicker" type="color" value="#0f111a"><label for="accentColorPicker">Accent color</label><input id="accentColorPicker" type="color" value="#6366f1"><button id="saveSettingsButton" type="button">Save Preferences</button></div>
+        <div class="section"><p class="eyebrow">ROUTING</p><h2>Gateway Configuration</h2><p class="muted">Configure only gateways you own or are authorized to use.</p><label for="defaultGatewayInput">Default gateway prefix</label><input id="defaultGatewayInput" type="url" placeholder="https://portal.example/proxy?url="><label for="regionalGatewayInput">Regional gateway prefix</label><input id="regionalGatewayInput" type="url" placeholder="https://regional.example/proxy?target="><button id="saveGatewayButton" type="button">Save Gateway Configuration</button></div>
+        <div class="section"><p class="eyebrow">BACKUP</p><h2>Export and Import</h2><p class="muted">Back up theme, gateway, selection, and request data as JSON.</p><div class="button-row"><button id="exportConfigButton" type="button">Export Configuration</button><button id="importConfigButton" class="secondary" type="button">Import Configuration</button></div><input id="importConfigInput" type="file" accept="application/json,.json" hidden></div>
     </section>
 
-    <section class="view" data-view-panel="queue" hidden>
-        <div class="section">
-            <div class="section-heading">
-                <h2>Request Queue</h2>
-                <button id="clearQueueButton" class="secondary compact" type="button">Clear Queue</button>
-            </div>
-            <p id="queueEmpty" class="muted">No requests have been queued.</p>
-            <ul id="requestQueue" class="request-list" aria-label="Request queue"></ul>
-        </div>
-    </section>
+    <section class="view" data-view-panel="queue" role="tabpanel" hidden><div class="section"><div class="section-heading"><div><p class="eyebrow">CONTENT MANAGEMENT</p><h2>Request Queue</h2></div><button id="clearQueueButton" class="secondary compact" type="button">Clear Queue</button></div><p id="queueEmpty" class="muted">No requests have been queued.</p><ul id="requestQueue" class="request-list" aria-label="Request queue"></ul></div></section>
 </main>
+<div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 </body>
 </html>
